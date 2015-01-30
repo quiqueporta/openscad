@@ -3,7 +3,6 @@
 //   http://www.robertcailliau.eu/Lego/Dimensions/zMeasurements-en.xhtml
 // all copyrights and designs are property of their respective owners.
 
-h_pitch = 8.0;   // horizontal unit
 v_pitch = 9.6;   // vertical unit
 
 TOLERANCE = 0.1;
@@ -11,6 +10,8 @@ TOLERANCE = 0.1;
 KNOB_TOP_DIAMETER = 4.8;
 KNOB_BOTTOM_DIAMETER = 6.5137;
 BEAM_BOTTOM_CYLINDER_DIAMETER = 3.0;
+
+HORIZONTAL_KNOB_SEPARATION = 8.0;
 
 WALL_THICKNESS = 1.2;
 
@@ -59,17 +60,16 @@ module walls(width, depth, height=v_pitch) {
 }
 
 module build_brick(col, row, height) {
-  // builds a Lego brick based on the number of knobs
-  width = col*h_pitch - 2*TOLERANCE;
-  depth = row*h_pitch - 2*TOLERANCE;
+
+  width = col*HORIZONTAL_KNOB_SEPARATION - 2*TOLERANCE;
+  depth = row*HORIZONTAL_KNOB_SEPARATION - 2*TOLERANCE;
   
-  // build walls
   walls(width, depth, height);
 
   // place knobs
   for (j = [1:row]) {
     for (i = [1:col]) {
-      translate([(2*i-1)*h_pitch/2, (2*j-1)*h_pitch/2, height])
+      translate([(2*i-1)*HORIZONTAL_KNOB_SEPARATION/2, (2*j-1)*HORIZONTAL_KNOB_SEPARATION/2, height])
       knob_top();
     }
   }
@@ -78,20 +78,20 @@ module build_brick(col, row, height) {
   if (row == 1) {
     if (col > 1) {
       for (i = [1:col-1]) {
-        translate([h_pitch*i, h_pitch/2, 0])
+        translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION/2, 0])
         beam_bottom_cylinder(height);
       }
     }
   } else if (col == 1) {
     for (j = [1:row-1]) {
-      translate([h_pitch/2, h_pitch*j, 0])
+      translate([HORIZONTAL_KNOB_SEPARATION/2, HORIZONTAL_KNOB_SEPARATION*j, 0])
       beam_bottom_cylinder(height);
     }
 
   } else {
     for (j = [1:row-1]) {
       for (i = [1:col-1]) {
-        translate([h_pitch*i, h_pitch*j, 0])
+        translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION*j, 0])
         knob_bottom(height);
       }
     }
