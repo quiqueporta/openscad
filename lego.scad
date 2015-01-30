@@ -10,6 +10,7 @@ wall = 1.2;      // wall thickness
 TOLERANCE = 0.1;
 KNOB_TOP_DIAMETER = 4.8;
 KNOB_BOTTOM_DIAMETER = 6.5137;
+FINE = 40;
 
 beam_cyl = 3.0;
 
@@ -20,8 +21,7 @@ function knob_top_radius() = radius(KNOB_TOP_DIAMETER);
 module knob() {
  	height = 1.8;
  	radius = radius(KNOB_TOP_DIAMETER);
-	fine = 40;
-  	cylinder(h = height, r = radius, $fn=fine);
+  	cylinder(h = height, r = radius, $fn=FINE);
 }
 
 module brick_cylinder(height=v_pitch) {
@@ -29,7 +29,7 @@ module brick_cylinder(height=v_pitch) {
 	knob_bottom_interior_radius = knob_top_radius() + TOLERANCE;
   	difference() {
     	cylinder(h=height, r=knob_bottom_exterior_radius);
-    	cylinder(h=height, r=knob_bottom_interior_radius, $fn=k_n);
+    	cylinder(h=height, r=knob_bottom_interior_radius, $fn=FINE);
   	}
 }
 
