@@ -18,13 +18,13 @@ function radius(diameter) = diameter / 2;
 
 function knob_top_radius() = radius(KNOB_TOP_DIAMETER);
 
-module knob() {
+module knob_top() {
  	height = 1.8;
  	radius = radius(KNOB_TOP_DIAMETER);
   	cylinder(h = height, r = radius, $fn=FINE);
 }
 
-module brick_cylinder(height=v_pitch) {
+module knob_bottom(height=v_pitch) {
 	knob_bottom_exterior_radius = radius(KNOB_BOTTOM_DIAMETER);
 	knob_bottom_interior_radius = knob_top_radius() + TOLERANCE;
   	difference() {
@@ -32,6 +32,7 @@ module brick_cylinder(height=v_pitch) {
     	cylinder(h=height, r=knob_bottom_interior_radius, $fn=FINE);
   	}
 }
+
 
 module beam_cylinder(height=v_pitch) {
   cylinder(h=height, r=beam_cyl/2);
@@ -57,7 +58,7 @@ module build_brick(col, row, height) {
   for (j = [1:row]) {
     for (i = [1:col]) {
       translate([(2*i-1)*h_pitch/2, (2*j-1)*h_pitch/2, height])
-      knob();
+      knob_top();
     }
   }
 
@@ -79,7 +80,7 @@ module build_brick(col, row, height) {
     for (j = [1:row-1]) {
       for (i = [1:col-1]) {
         translate([h_pitch*i, h_pitch*j, 0])
-        brick_cylinder(height);
+        knob_bottom(height);
       }
     }
   }
