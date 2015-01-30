@@ -7,7 +7,6 @@ h_pitch = 8.0;   // horizontal unit
 v_pitch = 9.6;   // vertical unit
 tol = 0.1;       // "play" in x and y directions
 k_dia = 4.8;     // knob diameter
-k_height = 1.8;  // knob height
 k_n = 40;         // knob resolution
 wall = 1.2;      // wall thickness
 
@@ -16,7 +15,8 @@ brick_cyl_in = 4.8;
 beam_cyl = 3.0;
 
 module knob() {
-  cylinder(h = k_height, r = k_dia/2, $fn=k_n);
+  height = 1.8;
+  cylinder(h = height, r = k_dia/2, $fn=k_n);
 }
 
 module brick_cylinder(height=v_pitch) {
