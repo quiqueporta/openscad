@@ -5,9 +5,9 @@
 
 h_pitch = 8.0;   // horizontal unit
 v_pitch = 9.6;   // vertical unit
-tol = 0.1;       // "play" in x and y directions
 wall = 1.2;      // wall thickness
 
+TOLERANCE = 0.1;
 KNOB_TOP_DIAMETER = 4.8;
 KNOB_BOTTOM_DIAMETER = 6.5137;
 
@@ -27,7 +27,7 @@ module brick_cylinder(height=v_pitch) {
 	radius = radius(KNOB_BOTTOM_DIAMETER);
   	difference() {
     	cylinder(h=height, r=radius);
-    	cylinder(h=height, r=brick_cyl_in/2+tol, $fn=k_n);
+    	cylinder(h=height, r=brick_cyl_in/2+TOLERANCE, $fn=k_n);
   	}
 }
 
@@ -45,8 +45,8 @@ module walls(w, d, height=v_pitch) {
 
 module build_brick(col, row, height) {
   // builds a Lego brick based on the number of knobs
-  width = col*h_pitch - 2*tol;
-  depth = row*h_pitch - 2*tol;
+  width = col*h_pitch - 2*TOLERANCE;
+  depth = row*h_pitch - 2*TOLERANCE;
   
   // build walls
   walls(width, depth, height);
