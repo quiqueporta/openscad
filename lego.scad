@@ -3,8 +3,6 @@
 //   http://www.robertcailliau.eu/Lego/Dimensions/zMeasurements-en.xhtml
 // all copyrights and designs are property of their respective owners.
 
-v_pitch = 9.6;   // vertical unit
-
 TOLERANCE = 0.1;
 
 KNOB_TOP_DIAMETER = 4.8;
@@ -12,7 +10,8 @@ KNOB_BOTTOM_DIAMETER = 6.5137;
 BEAM_BOTTOM_CYLINDER_DIAMETER = 3.0;
 
 HORIZONTAL_KNOB_SEPARATION = 8.0;
-VERTICAL_KNOB_SEPARATION = 9.6;
+
+BRICK_STANDARD_HEIGHT = 9.6;
 
 WALL_THICKNESS = 1.2;
 
@@ -28,7 +27,7 @@ module knob_top() {
   	cylinder(h = height, r = radius, $fn=FINE);
 }
 
-module knob_bottom(height=v_pitch) {
+module knob_bottom(height=BRICK_STANDARD_HEIGHT) {
 	knob_bottom_exterior_radius = radius(KNOB_BOTTOM_DIAMETER);
 	knob_bottom_interior_radius = knob_top_radius() + TOLERANCE;
   	difference() {
@@ -37,12 +36,12 @@ module knob_bottom(height=v_pitch) {
   	}
 }
 
-module beam_bottom_cylinder(height=v_pitch) {
+module beam_bottom_cylinder(height=BRICK_STANDARD_HEIGHT) {
 	radius = radius(BEAM_BOTTOM_CYLINDER_DIAMETER);
   	cylinder(h=height, r=radius);
 }
 
-module walls(width, depth, height=v_pitch) {
+module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 	double_wall_thickness = WALL_THICKNESS * 2;
 
 	outer_cube_dimensions = [width, depth, height];
@@ -100,15 +99,15 @@ module build_brick(col, row, height) {
 }
 
 module beam(k) {
-  build_brick(k, 1, v_pitch);
+  build_brick(k, 1, BRICK_STANDARD_HEIGHT);
 }
 
 module brick(k) {
-  build_brick(k, 2, v_pitch);
+  build_brick(k, 2, BRICK_STANDARD_HEIGHT);
 }
 
 module plate(col, row) {
-  build_brick(col, row, v_pitch/3);
+  build_brick(col, row, BRICK_STANDARD_HEIGHT/3);
 }
 
 
