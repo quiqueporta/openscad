@@ -8,11 +8,12 @@ v_pitch = 9.6;   // vertical unit
 wall = 1.2;      // wall thickness
 
 TOLERANCE = 0.1;
+
 KNOB_TOP_DIAMETER = 4.8;
 KNOB_BOTTOM_DIAMETER = 6.5137;
-FINE = 40;
+BEAM_BOTTOM_CYLINDER_DIAMETER = 3.0;
 
-beam_cyl = 3.0;
+FINE = 40;
 
 function radius(diameter) = diameter / 2;
 
@@ -33,9 +34,9 @@ module knob_bottom(height=v_pitch) {
   	}
 }
 
-
-module beam_cylinder(height=v_pitch) {
-  cylinder(h=height, r=beam_cyl/2);
+module beam_bottom_cylinder(height=v_pitch) {
+	radius = radius(BEAM_BOTTOM_CYLINDER_DIAMETER);
+  	cylinder(h=height, r=radius);
 }
 
 module walls(w, d, height=v_pitch) {
@@ -67,13 +68,13 @@ module build_brick(col, row, height) {
     if (col > 1) {
       for (i = [1:col-1]) {
         translate([h_pitch*i, h_pitch/2, 0])
-        beam_cylinder(height);
+        beam_bottom_cylinder(height);
       }
     }
   } else if (col == 1) {
     for (j = [1:row-1]) {
       translate([h_pitch/2, h_pitch*j, 0])
-      beam_cylinder(height);
+      beam_bottom_cylinder(height);
     }
 
   } else {
