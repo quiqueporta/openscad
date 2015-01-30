@@ -8,9 +8,9 @@ v_pitch = 9.6;   // vertical unit
 tol = 0.1;       // "play" in x and y directions
 wall = 1.2;      // wall thickness
 
-KNOB_DIAMETER = 4.8;
+KNOB_TOP_DIAMETER = 4.8;
+KNOB_BOTTOM_DIAMETER = 6.5137;
 
-brick_cyl_ex = 8*sqrt(2)-KNOB_DIAMETER;
 brick_cyl_in = 4.8;
 beam_cyl = 3.0;
 
@@ -18,16 +18,17 @@ function radius(diameter) = diameter / 2;
 
 module knob() {
  	height = 1.8;
- 	radius = radius(KNOB_DIAMETER);
+ 	radius = radius(KNOB_TOP_DIAMETER);
 	fine = 40;
   	cylinder(h = height, r = radius, $fn=fine);
 }
 
 module brick_cylinder(height=v_pitch) {
-  difference() {
-    cylinder(h=height, r=brick_cyl_ex/2);
-    cylinder(h=height, r=brick_cyl_in/2+tol, $fn=k_n);
-  }
+	radius = radius(KNOB_BOTTOM_DIAMETER);
+  	difference() {
+    	cylinder(h=height, r=radius);
+    	cylinder(h=height, r=brick_cyl_in/2+tol, $fn=k_n);
+  	}
 }
 
 module beam_cylinder(height=v_pitch) {
