@@ -41,11 +41,21 @@ module beam_bottom_cylinder(height=v_pitch) {
 }
 
 module walls(width, depth, height=v_pitch) {
-  difference() {
-    cube([width, depth, height]);
-    translate([WALL_THICKNESS, WALL_THICKNESS, 0])
-    cube([width-2*WALL_THICKNESS, depth-2*WALL_THICKNESS, height-WALL_THICKNESS]);
-  }
+	double_wall_thickness = WALL_THICKNESS * 2;
+
+	outer_cube_dimensions = [width, depth, height];
+	inner_cube_dimensions = [width-double_wall_thickness, depth-double_wall_thickness, height-WALL_THICKNESS];
+
+	offset_x = WALL_THICKNESS;
+	offset_y = WALL_THICKNESS;
+	height = 0;
+	offset = [offset_x, offset_y, height];
+
+  	difference() {
+    	cube(outer_cube_dimensions);
+    	translate(offset)
+    	cube(inner_cube_dimensions);
+	}
 }
 
 module build_brick(col, row, height) {
