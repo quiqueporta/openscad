@@ -61,10 +61,12 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 
 module build_brick(col, row, height) {
 
-  width = col*HORIZONTAL_KNOB_SEPARATION - 2*TOLERANCE;
-  depth = row*HORIZONTAL_KNOB_SEPARATION - 2*TOLERANCE;
+	double_tolerance = 2*TOLERANCE;
+
+	width = col*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
+  	depth = row*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
   
-  walls(width, depth, height);
+  	walls(width, depth, height);
 
   // place knobs
   for (j = [1:row]) {
