@@ -5,13 +5,14 @@
 
 h_pitch = 8.0;   // horizontal unit
 v_pitch = 9.6;   // vertical unit
-wall = 1.2;      // wall thickness
 
 TOLERANCE = 0.1;
 
 KNOB_TOP_DIAMETER = 4.8;
 KNOB_BOTTOM_DIAMETER = 6.5137;
 BEAM_BOTTOM_CYLINDER_DIAMETER = 3.0;
+
+WALL_THICKNESS = 1.2;
 
 FINE = 40;
 
@@ -42,8 +43,8 @@ module beam_bottom_cylinder(height=v_pitch) {
 module walls(w, d, height=v_pitch) {
   difference() {
     cube([w, d, height]);
-    translate([wall, wall, 0])
-    cube([w-2*wall, d-2*wall, height-wall]);
+    translate([WALL_THICKNESS, WALL_THICKNESS, 0])
+    cube([w-2*WALL_THICKNESS, d-2*WALL_THICKNESS, height-WALL_THICKNESS]);
   }
 }
 
