@@ -40,11 +40,11 @@ module beam_bottom_cylinder(height=v_pitch) {
   	cylinder(h=height, r=radius);
 }
 
-module walls(w, d, height=v_pitch) {
+module walls(width, depth, height=v_pitch) {
   difference() {
-    cube([w, d, height]);
+    cube([width, depth, height]);
     translate([WALL_THICKNESS, WALL_THICKNESS, 0])
-    cube([w-2*WALL_THICKNESS, d-2*WALL_THICKNESS, height-WALL_THICKNESS]);
+    cube([width-2*WALL_THICKNESS, depth-2*WALL_THICKNESS, height-WALL_THICKNESS]);
   }
 }
 
