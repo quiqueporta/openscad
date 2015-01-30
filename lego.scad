@@ -59,6 +59,15 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 	}
 }
 
+module place_knobs(col, row, height) {
+	for (j = [1:row]) {
+		for (i = [1:col]) {
+			translate([(2*i-1)*HORIZONTAL_KNOB_SEPARATION/2, (2*j-1)*HORIZONTAL_KNOB_SEPARATION/2, height])
+			knob_top();
+		}
+	}
+}
+
 module build_brick(col, row, height) {
 
 	double_tolerance = 2*TOLERANCE;
@@ -68,13 +77,7 @@ module build_brick(col, row, height) {
   
   	walls(width, depth, height);
 
-  // place knobs
-  for (j = [1:row]) {
-    for (i = [1:col]) {
-      translate([(2*i-1)*HORIZONTAL_KNOB_SEPARATION/2, (2*j-1)*HORIZONTAL_KNOB_SEPARATION/2, height])
-      knob_top();
-    }
-  }
+  	place_knobs(col, row, height);
 
   // internal cylinders
   if (row == 1) {
