@@ -12,6 +12,7 @@ BEAM_BOTTOM_CYLINDER_DIAMETER = 3.0;
 HORIZONTAL_KNOB_SEPARATION = 8.0;
 
 BRICK_STANDARD_HEIGHT = 9.6;
+function plate_standard_height() = BRICK_STANDARD_HEIGHT/3;
 
 WALL_THICKNESS = 1.2;
 
@@ -20,6 +21,7 @@ FINE = 40;
 function radius(diameter) = diameter / 2;
 
 function knob_top_radius() = radius(KNOB_TOP_DIAMETER);
+
 
 module knob_top() {
  	height = 1.8;
@@ -129,42 +131,41 @@ module build_brick(col, row, height) {
 	place_bottom_knobs(col, row, height);
 }
 
-module beam(k) {
-  build_brick(k, 1, BRICK_STANDARD_HEIGHT);
+module beam(col) {
+  build_brick(col, 1, BRICK_STANDARD_HEIGHT);
 }
 
-module brick(k) {
-  build_brick(k, 2, BRICK_STANDARD_HEIGHT);
+module brick(col) {
+  build_brick(col, 2, BRICK_STANDARD_HEIGHT);
 }
 
 module plate(col, row) {
-  build_brick(col, row, BRICK_STANDARD_HEIGHT/3);
+  build_brick(col, row, plate_standard_height());
 }
 
 
-// let's build some parts!
 brick(2);
 
 translate([-20, 0, 0])
-plate(1,1);
+	plate(1,1);
 
 translate([-20, 10, 0])
-beam(1);
+	beam(1);
 
 translate([20, 0, 0])
-brick(4);
+	brick(4);
 
 translate([0, 20, 0])
-beam(5);
+	beam(5);
 
 translate([0, 30, 0])
-plate(2, 2);
+	plate(2, 2);
 
 translate([0, -70, 0])
-plate(10, 8);
+	plate(10, 8);
 
 translate([-10, 0, 0])
-plate(1, 10);
+	plate(1, 10);
 
 translate([-40, -40, 0])
-plate(3, 5);
+	plate(3, 5);
