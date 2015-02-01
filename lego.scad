@@ -93,28 +93,39 @@ module create_walls(col, row, height) {
   	walls(width, depth, height);
 }
 
-module build_brick(col, row, height) {
-
-	create_walls(col, row, height);
-
-  	place_top_knobs(col, row, height);
-
-  if (row == 1) {
+module place_beam_bottom_cilynder_horizontally (col, row, height) {
+	if (row == 1) {
 		if (col > 1) {
 			for (i = [1:col-1]) {
         		translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION/2, 0])
         			beam_bottom_cylinder(height);
 			}
   		}
-  } else if (col == 1) {
-    for (j = [1:row-1]) {
-      translate([HORIZONTAL_KNOB_SEPARATION/2, HORIZONTAL_KNOB_SEPARATION*j, 0])
-      beam_bottom_cylinder(height);
-    }
+	}	
+}
 
-  } else {
-    place_bottom_knobs(col, row, height);
-  }
+module place_beam_bottom_cilynder_vertically (col, row, height) {
+	if ((col == 1) && (row >1)) {
+		for (j = [1:row-1]) {
+      		translate([HORIZONTAL_KNOB_SEPARATION/2, HORIZONTAL_KNOB_SEPARATION*j, 0])
+      			beam_bottom_cylinder(height);
+    	}
+  	}
+}
+
+module build_brick(col, row, height) {
+
+	create_walls(col, row, height);
+
+  	place_top_knobs(col, row, height);
+
+	place_beam_bottom_cilynder_horizontally(col, row, height);
+
+	place_beam_bottom_cilynder_vertically (col, row, height);
+	
+	if ((col > 1) && (row > 1)) {
+		place_bottom_knobs(col, row, height);
+  	}
 }
 
 module beam(k) {
