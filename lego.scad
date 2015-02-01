@@ -63,11 +63,11 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 
 function odd_number_generator(index) = index*2-1; 
 
-module place_top_knobs(col, row, height) {
+module place_top_knobs(cols, rows, height) {
 	half_horizontal_knob_separation = HORIZONTAL_KNOB_SEPARATION/2;
 
-	for (j = [1:row]) {
-		for (i = [1:col]) {
+	for (j = [1:rows]) {
+		for (i = [1:cols]) {
 			assign (offset_x = odd_number_generator(i)*half_horizontal_knob_separation, offset_y = odd_number_generator(j)*half_horizontal_knob_separation)
 			{
 				translate([offset_x, offset_y, height])
@@ -77,10 +77,10 @@ module place_top_knobs(col, row, height) {
 	}
 }
 
-module place_bottom_knobs(col, row, height) {
-	if ((col > 1) && (row > 1)) {
-		for (j = [1:row-1]) {
-			for (i = [1:col-1]) {
+module place_bottom_knobs(cols, rows, height) {
+	if ((cols > 1) && (rows > 1)) {
+		for (j = [1:rows-1]) {
+			for (i = [1:cols-1]) {
 				translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION*j, 0])
 					knob_bottom(height);
 			}
@@ -88,19 +88,19 @@ module place_bottom_knobs(col, row, height) {
 	}	
 }
 
-module create_walls(col, row, height) {
+module create_walls(cols, rows, height) {
 	double_tolerance = 2*TOLERANCE;
 
-	width = col*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
-  	depth = row*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
+	width = cols*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
+  	depth = rows*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
   
   	walls(width, depth, height);
 }
 
-module place_beam_bottom_cilynder_horizontally (col, row, height) {
-	if (row == 1) {
-		if (col > 1) {
-			for (i = [1:col-1]) {
+module place_beam_bottom_cilynder_horizontally (cols, rows, height) {
+	if (rows == 1) {
+		if (cols > 1) {
+			for (i = [1:cols-1]) {
         		translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION/2, 0])
         			beam_bottom_cylinder(height);
 			}
@@ -108,39 +108,38 @@ module place_beam_bottom_cilynder_horizontally (col, row, height) {
 	}	
 }
 
-module place_beam_bottom_cilynder_vertically (col, row, height) {
-	if ((col == 1) && (row >1)) {
-		for (j = [1:row-1]) {
+module place_beam_bottom_cilynder_vertically (cols, rows, height) {
+	if ((cols == 1) && (rows >1)) {
+		for (j = [1:rows-1]) {
       		translate([HORIZONTAL_KNOB_SEPARATION/2, HORIZONTAL_KNOB_SEPARATION*j, 0])
       			beam_bottom_cylinder(height);
     	}
   	}
 }
 
+module build_brick(cols, rows, height) {
 
-module build_brick(col, row, height) {
+	create_walls(cols, rows, height);
 
-	create_walls(col, row, height);
+  	place_top_knobs(cols, rows, height);
 
-  	place_top_knobs(col, row, height);
+	place_beam_bottom_cilynder_horizontally(cols, rows, height);
 
-	place_beam_bottom_cilynder_horizontally(col, row, height);
-
-	place_beam_bottom_cilynder_vertically (col, row, height);
+	place_beam_bottom_cilynder_vertically (cols, rows, height);
 	
-	place_bottom_knobs(col, row, height);
+	place_bottom_knobs(cols, rows, height);
 }
 
-module beam(col) {
-  build_brick(col, 1, BRICK_STANDARD_HEIGHT);
+module beam(cols) {
+  build_brick(cols, 1, BRICK_STANDARD_HEIGHT);
 }
 
-module brick(col) {
-  build_brick(col, 2, BRICK_STANDARD_HEIGHT);
+module brick(cols) {
+  build_brick(cols, 2, BRICK_STANDARD_HEIGHT);
 }
 
-module plate(col, row) {
-  build_brick(col, row, plate_standard_height());
+module plate(cols, rows) {
+  build_brick(cols, rows, plate_standard_height());
 }
 
 
