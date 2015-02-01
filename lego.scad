@@ -64,13 +64,13 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 
 function odd_number_generator(index) = index*2-1; 
 
-function offset_for_top_knob(position) = odd_number_generator(position)*HALF_HORIZONTAL_KNOB_SEPARATION;
+function offset_for_top_knobs(position) = odd_number_generator(position)*HALF_HORIZONTAL_KNOB_SEPARATION;
 
 module place_top_knobs(cols, rows, height) {
 
 	for (j = [1:rows]) {
 		for (i = [1:cols]) {
-			assign (offset_x = offset_for_top_knob(i), offset_y = offset_for_top_knob(j))
+			assign (offset_x = offset_for_top_knobs(i), offset_y = offset_for_top_knobs(j))
 			{
 				translate([offset_x, offset_y, height])
 					knob_top();
