@@ -109,8 +109,9 @@ module place_beam_bottom_cilynder_horizontally (cols, height) {
   	}
 }
 
-module place_beam_bottom_cilynder_vertically (cols, rows, height) {
-	if ((cols == 1) && (rows >1)) {
+module place_beam_bottom_cilynder_vertically (rows, height) {
+	cols = 1;
+	if (rows >1) {
 		for (j = [1:rows-1]) {
       		translate([HORIZONTAL_KNOB_SEPARATION/2, HORIZONTAL_KNOB_SEPARATION*j, 0])
       			beam_bottom_cylinder(height);
@@ -126,7 +127,7 @@ module build_brick(cols, rows, height) {
 
 	place_beam_bottom_cilynder_horizontally(cols, height);
 
-	place_beam_bottom_cilynder_vertically (cols, rows, height);
+	place_beam_bottom_cilynder_vertically (rows, height);
 	
 	place_bottom_knobs(cols, rows, height);
 }
