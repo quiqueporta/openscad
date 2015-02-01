@@ -50,21 +50,14 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 	outer_cube_dimensions = [width, depth, height];
 	inner_cube_dimensions = [width-double_wall_thickness, depth-double_wall_thickness, height-WALL_THICKNESS];
 
-	offset_x = WALL_THICKNESS;
-	offset_y = WALL_THICKNESS;
-	height = 0;
-	offset = [offset_x, offset_y, height];
-
   	difference() {
     	cube(outer_cube_dimensions);
-    	translate(offset)
+    	translate([WALL_THICKNESS, WALL_THICKNESS, 0])
     	cube(inner_cube_dimensions);
 	}
 }
 
-function odd_number_generator(index) = index*2-1; 
-
-function offset_for_top_knobs(position) = odd_number_generator(position)*HALF_HORIZONTAL_KNOB_SEPARATION;
+function offset_for_top_knobs(index) = (index*2-1) * HALF_HORIZONTAL_KNOB_SEPARATION;
 
 module place_top_knobs(cols, rows, height) {
 
