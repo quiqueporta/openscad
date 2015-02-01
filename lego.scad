@@ -84,18 +84,21 @@ module place_bottom_knobs(col, row, height) {
 	}	
 }
 
-module build_brick(col, row, height) {
-
+module create_walls(col, row, height) {
 	double_tolerance = 2*TOLERANCE;
 
 	width = col*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
   	depth = row*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
   
   	walls(width, depth, height);
+}
+
+module build_brick(col, row, height) {
+
+	create_walls(col, row, height);
 
   	place_top_knobs(col, row, height);
 
-  // internal cylinders
   if (row == 1) {
 		if (col > 1) {
 			for (i = [1:col-1]) {
