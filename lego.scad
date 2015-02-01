@@ -91,7 +91,7 @@ module place_bottom_knobs(cols, rows, height) {
 }
 
 module create_walls(cols, rows, height) {
-	double_tolerance = 2*TOLERANCE;
+	double_tolerance = 2 * TOLERANCE;
 
 	width = cols*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
   	depth = rows*HORIZONTAL_KNOB_SEPARATION - double_tolerance;
@@ -111,7 +111,7 @@ module place_beam_bottom_cilynder_horizontally (cols, height) {
 
 module place_beam_bottom_cilynder_vertically (rows, height) {
 	cols = 1;
-	if (rows >1) {
+	if (rows > 1) {
 		for (j = [1:rows-1]) {
       		translate([HORIZONTAL_KNOB_SEPARATION/2, HORIZONTAL_KNOB_SEPARATION*j, 0])
       			beam_bottom_cylinder(height);
@@ -144,29 +144,32 @@ module plate(cols, rows) {
   build_brick(cols, rows, PLATE_STANDARD_HEIGHT);
 }
 
+module create_lego_pieces() {
+	brick(2);
 
-brick(2);
+	translate([-20, 0, 0])
+		plate(1,1);
 
-translate([-20, 0, 0])
-	plate(1,1);
+	translate([-20, 10, 0])
+		beam(1);
 
-translate([-20, 10, 0])
-	beam(1);
+	translate([20, 0, 0])
+		brick(4);
 
-translate([20, 0, 0])
-	brick(4);
+	translate([0, 20, 0])
+		beam(5);
 
-translate([0, 20, 0])
-	beam(5);
+	translate([0, 30, 0])
+		plate(2, 2);
 
-translate([0, 30, 0])
-	plate(2, 2);
+	translate([0, -70, 0])
+		plate(10, 8);
 
-translate([0, -70, 0])
-	plate(10, 8);
+	translate([-10, 0, 0])
+		plate(1, 10);
 
-translate([-10, 0, 0])
-	plate(1, 10);
+	translate([-40, -40, 0])
+		plate(3, 5);
+}
 
-translate([-40, -40, 0])
-	plate(3, 5);
+create_lego_pieces();
