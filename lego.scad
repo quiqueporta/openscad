@@ -10,6 +10,7 @@ KNOB_BOTTOM_DIAMETER = 6.5137;
 BEAM_BOTTOM_CYLINDER_DIAMETER = 3.0;
 
 HORIZONTAL_KNOB_SEPARATION = 8.0;
+function half_horizontal_knob_separation() = HORIZONTAL_KNOB_SEPARATION/2;
 
 BRICK_STANDARD_HEIGHT = 9.6;
 function plate_standard_height() = BRICK_STANDARD_HEIGHT/3;
@@ -63,12 +64,13 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 
 function odd_number_generator(index) = index*2-1; 
 
+function offset_for_top_knob(position) = odd_number_generator(position)*half_horizontal_knob_separation();
+
 module place_top_knobs(cols, rows, height) {
-	half_horizontal_knob_separation = HORIZONTAL_KNOB_SEPARATION/2;
 
 	for (j = [1:rows]) {
 		for (i = [1:cols]) {
-			assign (offset_x = odd_number_generator(i)*half_horizontal_knob_separation, offset_y = odd_number_generator(j)*half_horizontal_knob_separation)
+			assign (offset_x = offset_for_top_knob(i), offset_y = offset_for_top_knob(j))
 			{
 				translate([offset_x, offset_y, height])
 					knob_top();
