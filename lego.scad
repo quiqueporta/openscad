@@ -61,7 +61,7 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 
 function odd_number_generator(index) = index*2-1; 
 
-module place_knobs(col, row, height) {
+module place_top_knobs(col, row, height) {
 	half_horizontal_knob_separation = HORIZONTAL_KNOB_SEPARATION/2;
 
 	for (j = [1:row]) {
@@ -75,6 +75,15 @@ module place_knobs(col, row, height) {
 	}
 }
 
+module place_bottom_knobs(col, row, height) {
+	for (j = [1:row-1]) {
+		for (i = [1:col-1]) {
+			translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION*j, 0])
+				knob_bottom(height);
+		}
+	}	
+}
+
 module build_brick(col, row, height) {
 
 	double_tolerance = 2*TOLERANCE;
@@ -84,16 +93,16 @@ module build_brick(col, row, height) {
   
   	walls(width, depth, height);
 
-  	place_knobs(col, row, height);
+  	place_top_knobs(col, row, height);
 
   // internal cylinders
   if (row == 1) {
-    if (col > 1) {
-      for (i = [1:col-1]) {
-        translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION/2, 0])
-        beam_bottom_cylinder(height);
-      }
-    }
+		if (col > 1) {
+			for (i = [1:col-1]) {
+        		translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION/2, 0])
+        			beam_bottom_cylinder(height);
+			}
+  		}
   } else if (col == 1) {
     for (j = [1:row-1]) {
       translate([HORIZONTAL_KNOB_SEPARATION/2, HORIZONTAL_KNOB_SEPARATION*j, 0])
@@ -101,12 +110,7 @@ module build_brick(col, row, height) {
     }
 
   } else {
-    for (j = [1:row-1]) {
-      for (i = [1:col-1]) {
-        translate([HORIZONTAL_KNOB_SEPARATION*i, HORIZONTAL_KNOB_SEPARATION*j, 0])
-        knob_bottom(height);
-      }
-    }
+    place_bottom_knobs(col, row, height);
   }
 }
 
