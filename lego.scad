@@ -23,7 +23,7 @@ function knob_top_radius() = radius(KNOB_TOP_DIAMETER);
 
 module knob_top() {
  	height = 1.8;
- 	radius = radius(KNOB_TOP_DIAMETER);
+ 	radius = knob_top_radius();
   	cylinder(h = height, r = radius, $fn=FINE);
 }
 
@@ -59,11 +59,18 @@ module walls(width, depth, height=BRICK_STANDARD_HEIGHT) {
 	}
 }
 
+function odd_number_generator(index) = index*2-1; 
+
 module place_knobs(col, row, height) {
+	half_horizontal_knob_separation = HORIZONTAL_KNOB_SEPARATION/2;
+
 	for (j = [1:row]) {
 		for (i = [1:col]) {
-			translate([(2*i-1)*HORIZONTAL_KNOB_SEPARATION/2, (2*j-1)*HORIZONTAL_KNOB_SEPARATION/2, height])
-			knob_top();
+			assign (offset_x = odd_number_generator(i)*half_horizontal_knob_separation, offset_y = odd_number_generator(j)*half_horizontal_knob_separation)
+			{
+				translate([offset_x, offset_y, height])
+					knob_top();
+			}
 		}
 	}
 }
